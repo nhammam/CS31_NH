@@ -10,7 +10,7 @@ print("*" * 20) # print a line of 20 astericks
 
 #Ask for the use's name 
 print()
-username = input("What is your name"?)
+username = input("What is your name?")
 print(f"Hello,{username}!") # f-string format
 
 #Ask if they want to take a quiz 
@@ -33,14 +33,53 @@ if start_quiz.upper()== "Y": # this will make any ;owercase input into an upperc
         print("Yes! you correctt. Python would solve this as 25.")
     else: # INCORRECT
         print("Sorry . That is not correct.")
+   
     #Question 2
     print()
+    print(" *** Questions Two *** ")
     print("What is the function that we use to output something to the terminal?")
-    print()
+    print(" A - output()")
+    print(" B - print ()")
+    print(" C -format ()")
+    print(" D - Non of the above")
+    q2 = input("Your Answer - choose A/B/C/D: ")
+    if q2.upper()== "B":
+        # upper my counter because the got the answer right 
+        counter += 1 # shortthand for counter = counter +1 
+        print("Yes! You are correct. Python  would use the print() dunction to output something to the terminal.")
+    else: #INCORRECT
+        print("Sorry . That is not correct.")
 
  # Question 3
  # Question 4
  # Question 5
+ # Out the score 
+    print(" * * * * YOUR FINAL SCORE * * * *")
+    print(f"{username},your final score is: {counter} out of 5.")
+
+    #Give them feedback on their overall score 
+    if counter == 5:
+       print("You are a rockstar ! You got them all correct !")
+    elif counter >= 3 and counter < 5:
+       print("Great work!")
+    elif counter >= 1 and counter < 3:
+      print("Keep studying and try again !")
+    else:
+      print("Maybe this isn't your genre? Try again later.")
+
+elif start_quiz == "N":
+    print("Sorry, maybe next time!")
+elif: # if they type anything else tell them its invalid 
+    print("Sorry, That is an invalid response. Try again.")
+
+    #print a farewell message 
+    print("Tanks and have  agreat day !")
+
+
+    
+
+
+
 
 
 

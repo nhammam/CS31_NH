@@ -1,0 +1,107 @@
+# CS 31 Nazar Hammam. 11/13/2026
+# LAB 7-2: Miles Per Gallon program
+# LAB 7: Miles Per Gallon program (persistent data storage)
+# This program reads the saved trips from trips.csv and displays them when it starts.
+# After every new entry, the new trip is written to the csv file and the list is displayed again.
+
+# import the csv module so we can read and write comma-delimited data
+import csv
+
+# file name for our csv file (this file must already exist, even if it is empty)
+FILENAME = "trips.csv"
+
+
+# function that writes ONE row (one trip) to the csv file
+def write_trips(trip):
+    # open the file with "a" (append) so existing data is kept
+    # newline="" stops blank lines from appearing between rows
+    with open(FILENAME, "a", newline="") as file:
+        # create a csv writer that uses the open file
+        writer = csv.writer(file)
+        # use writerow (not writerows) because we are sending only one row of data
+        writer.writerow(trip)
+
+
+# function that reads the saved trips from the csv file
+def read_trips():
+    # start with an empty list; there are no arguments because we read the file here
+    trips = []
+    # open the file for reading; with open closes the file for us
+    with open(FILENAME, newline="") as file:
+        # create a csv reader that uses the open file
+        reader = csv.reader(file)
+        # loop through every row currently in the csv file
+        for row in reader:
+            # skip empty rows so list_trips() doesn't crash on blank lines
+            if row:
+                # append each row of data to the trips list
+                trips.append(row)
+    # return the list of trips (a list that contains lists) to the caller
+    return trips
+
+
+# function that displays all of the trips
+def list_trips(trips):
+    # display a heading so the columns have meaning
+    print(f"{'Distance':<12}{'Gallons':<11}{'MPG'}")
+    # loop through every trip (row) in the list
+    for trip in trips:
+        # :g drops the trailing .0 (274.0 shows as 274) and keeps 18.5 and 14.81 as they are
+        print(f"{float(trip[0]):<12g}{float(trip[1]):<11g}{float(trip[2]):g}")
+    # display a blank line after the table for readability
+    print()
+
+
+# function that gets valid float input from the user
+def get_miles_driven():
+    while True:
+        miles_driven = float(input("Enter miles driven: "))
+        if miles_driven > 0:
+            return miles_driven
+        else:
+            print("Entry must be greater than zero. Please try again.\n")
+
+
+def get_gallons_used():
+    while True:
+        gallons_used = float(input("Enter gallons of gas used: "))
+        if gallons_used > 0:
+            return gallons_used
+        else:
+            print("Entry must be greater than zero. Please try again.\n")
+
+
+def main():
+    # display a welcome message
+    print("The Miles Per Gallon Program")
+    print()
+
+    # read existing trips from the csv file and display them at startup
+    trips = read_trips()
+    list_trips(trips)
+
+    more = "y"
+    while more.lower() == "y":
+        miles_driven = get_miles_driven()
+        gallons_used = get_gallons_used()
+
+        mpg = round((miles_driven / gallons_used), 2)
+        print(f"Miles Per Gallon: {mpg}")
+        print()
+
+        # convert values to strings so trip matches list[str] from read_trips()
+        trip = [str(miles_driven), str(gallons_used), str(mpg)]
+        trips.append(trip)
+        write_trips(trip)
+
+        # display the updated list of trips
+        list_trips(trips)
+
+        more = input("More entries? (y or n): ")
+        print()
+
+    print("Bye!")
+
+
+if __name__ == "__main__":
+    main()
